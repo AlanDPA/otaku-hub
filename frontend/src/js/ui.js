@@ -6,6 +6,10 @@ function createCard(anime) {
 
   const clone = takeCard.cloneNode(true);
 
+  if (Number.isInteger(anime.mal_id) && anime.mal_id > 0) {
+    clone.href = `detail.html?id=${anime.mal_id}`;
+  }
+
   const imagesHtml = clone.querySelector("[data-images]");
 
   const scoreHtml = clone.querySelector("[data-score]");

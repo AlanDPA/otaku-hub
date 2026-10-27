@@ -1,4 +1,4 @@
-import { getData } from "./api.js";
+import { getData, getAnimeById, getCharacters } from "./api.js";
 import { renderCards } from "./ui.js";
 import { renderPagination } from "./ui.js";
 
