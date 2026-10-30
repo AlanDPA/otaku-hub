@@ -1,7 +1,7 @@
 import { urlBase, itemsPerPage } from "./config.js";
 
 async function resolveQuery(url) {
- try {
+  try {
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -19,23 +19,29 @@ export async function getData(page, search) {
   const paramsObj = { limit: itemsPerPage, page: page };
   const searchParams = new URLSearchParams(paramsObj);
 
-  if(typeof search === 'string' && search.trim().length > 0) {
-    searchParams.append("q",search.trim())
+  if (typeof search === "string" && search.trim().length > 0) {
+    searchParams.append("q", search.trim());
   }
 
   const url = `${urlBase}?${searchParams}`;
 
- return resolveQuery(url)
+  return resolveQuery(url);
 }
 
 export async function getAnimeById(id) {
- const url = `${urlBase}/${id}`
+  const url = `${urlBase}/${id}`;
 
- return resolveQuery(url)
+  return resolveQuery(url);
 }
 
 export async function getCharacters(id) {
-  const url = `${urlBase}/${id}/characters`
+  const url = `${urlBase}/${id}/characters`;
 
- return resolveQuery(url)
+  return resolveQuery(url);
+}
+
+export async function getStreaming(id) {
+  const url = `${urlBase}/${id}/streaming`;
+
+  return resolveQuery(url);
 }

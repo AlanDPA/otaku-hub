@@ -1,4 +1,61 @@
 const backgroundDefault = "img/background-default.jpg";
+const backgroundDefaultVertical = "img/background-default-vertical.jpg";
+
+function createStreaming(anime) {
+  const template = document.querySelector("#streaming-template");
+
+  const takeCard = template.content.firstElementChild;
+
+  const clone = takeCard.cloneNode(true);
+
+  const dataLinkHtml = clone.querySelector("[data-link]");
+
+  dataLinkHtml.textContent = anime.name;
+  dataLinkHtml.href = anime.url;
+
+  return clone
+}
+
+export function renderStreaming(anime, container) {
+  for (let index = 0; index < anime.length; index++) {
+    const element = createStreaming(anime[index]);
+    container.append(element);
+  }
+}
+
+function createCharacters(anime) {
+  const template = document.querySelector("#character-template");
+
+  const takeCard = template.content.firstElementChild;
+
+  const clone = takeCard.cloneNode(true);
+
+  const dataImagesHtml = clone.querySelector("[data-images]");
+
+  const dataCharacterNameHtml = clone.querySelector("[data-character-name]");
+
+  dataImagesHtml.src =
+    anime.character.images?.webp?.image_url ||
+    anime.character.images?.jpg?.image_url ||
+    backgroundDefaultVertical;
+
+  dataImagesHtml.alt = anime.character.name;
+
+  dataCharacterNameHtml.textContent = anime.character.name;
+
+  return clone;
+}
+
+export function renderCharacters(anime, container) {
+  container.replaceChildren();
+
+  for (let index = 0; index < anime.length; index++) {
+    if (anime[index].role === "Main") {
+      const element = createCharacters(anime[index]);
+      container.append(element);
+    }
+  }
+}
 
 export function detailCard(anime, container) {
   container.replaceChildren();
@@ -29,10 +86,14 @@ export function detailCard(anime, container) {
   const dataScoreByHtml = clone.querySelector("[data-score-by]");
 
   dataImages01Html.src =
-    anime.trailer?.images?.maximum_image_url || backgroundDefault;
+    anime.images?.webp?.image_url ||
+    anime.images?.jpg?.image_url ||
+    backgroundDefault;
 
   dataImages02Html.src =
-    anime.images?.webp?.image_url || anime.images?.jpg?.image_url;
+    anime.images?.webp?.large_image_url ||
+    anime.images?.jpg?.large_image_url ||
+    backgroundDefault;
 
   dataImages02Html.alt = anime.title;
 
@@ -55,7 +116,8 @@ export function detailCard(anime, container) {
   dataScoreHtml.textContent = anime.score || "N/A";
 
   dataScoreByHtml.textContent =
-    `Based on ${anime.scored_by?.toLocaleString("en-US")} votes` || "No votes yet";
+    `Based on ${anime.scored_by?.toLocaleString("en-US")} votes` ||
+    "No votes yet";
 
   container.append(clone);
 }
